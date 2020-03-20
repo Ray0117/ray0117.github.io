@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    基于机器视觉的自主巡检无人机 |  RayWong Robotics
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-基于机器视觉的自主巡检无人机" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  基于机器视觉的自主巡检无人机
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/03/20/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E7%9A%84%E8%87%AA%E4%B8%BB%E5%B7%A1%E6%A3%80%E6%97%A0%E4%BA%BA%E6%9C%BA/" class="article-date">
+  <time datetime="2020-03-20T02:59:31.000Z" itemprop="datePublished">2020-03-20</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.3k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">11分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h2 id="1-摘要"><a href="#1-摘要" class="headerlink" title="1. 摘要"></a>1. 摘要</h2><p> 随着电力巡检行业对于巡检无人化的需求日益增大，本团队自行设计了线缆安全的全封闭碳纤维四旋翼机架，使用塔式结构安装无人机所需的飞行控制及传感器设备。本无人机系统在采用传统四旋翼飞行器所需的光流、TOF等定位传感器的同时，在飞机顶部放置了完全自主设计的可旋转视觉综合导航模块，包括一个视觉传感器以及两个激光测距传感器，以实现对电力巡检所需条形码、二维码以及电力线缆异物的识别；解决了在没有绝对定外装置的情况下，无人机航向轴变化所导致的位置漂移问题。同时，双向可旋转的激光测距模块可以对周围环境进行辨识，准确判断电线杆及异物位置，通过实际仿真与测试验证了该系统的可行性与健壮性。</p>
+<a id="more"></a>
+
+<h2 id="2-设计方案"><a href="#2-设计方案" class="headerlink" title="2. 设计方案"></a>2. 设计方案</h2><h3 id="2-1-预期目标"><a href="#2-1-预期目标" class="headerlink" title="2.1 预期目标"></a>2.1 预期目标</h3><h4 id="2-1-1-传感器清单："><a href="#2-1-1-传感器清单：" class="headerlink" title="2.1.1 传感器清单："></a>2.1.1 传感器清单：</h4><ul>
+<li>陀螺仪；加速度计；气压计；光流传感器；</li>
+<li>可旋转前视视觉模块（openMV）；下视视觉模块；</li>
+<li>可旋转前视激光测距模块（TOF）；可旋转后视激光测距模块；下视激光测距模块。</li>
+<li>其中，三个可旋转传感器与拍照摄像机一起固定于飞机上方的单轴舵机旋转平台上。</li>
+</ul>
+<h4 id="2-1-2-飞行过程"><a href="#2-1-2-飞行过程" class="headerlink" title="2.1.2 飞行过程"></a>2.1.2 飞行过程</h4><ul>
+<li><p>起飞阶段：起飞前，安装在旋转机构上的TOF由舵机驱动旋转180度，寻找前方最接近飞机的物体并认为其即为A杆，测得其与飞机之间的距离与其对应的相对飞机的角度并计算出其相对飞机的位置。自动起飞后，依靠光流数据积分控制飞机移动至A杆正左方或右方，并以此作为任务起点，此时可旋转前视openMV朝向线的方向。</p>
+</li>
+<li><p>寻找异物阶段：飞机沿线的方向定高移动，依靠光流传感器与下视TOF确保飞机的前进方向与线平行；利用可旋转前视openMV在线上寻找黄色色块，一旦找到，飞机进入定点悬停模式并向相机发送拍照指令。完成拍照后，飞机继续前进，此时可旋转后视TOF朝向线的方向。</p>
+</li>
+<li><p>寻找码和绕杆阶段：飞机沿线的方向定高移动，依靠光流传感器与下视TOF确保飞机的前进方向与线平行；飞机前进直至可旋转后视TOF检测到距离数据突变（即飞机与B杆齐平的时刻），飞机进入定点悬停模式并向相机发送拍照指令。完成拍照后，舵机旋转平台旋转30°（指向飞机侧后方），飞机继续前进直至可旋转后视TOF检测到距离数据突变（即飞机后沿超过B杆约80mm处）后，向左侧平移，平移过过程中多次借助可旋转后视TOF的距离和角度数据进行修正，直至飞机完全绕过B杆并位于返航阶段的起点位置。</p>
+</li>
+<li><p>返航阶段：此时可旋转前视openMV朝向线的方向.飞机沿线的方向定高移动，依靠光流传感器与下视TOF确保飞机的前进方向与线平行；再次识别到黄色色块时发出声光报警。报警结束后返回至降落区域，降落，完成全部任务。</p>
+</li>
+</ul>
+<h3 id="2-2-系统方案"><a href="#2-2-系统方案" class="headerlink" title="2.2 系统方案"></a>2.2 系统方案</h3><p>本系统主要由飞行控制模块、激光测距模块、无线信号发射接收模块、电源模块、视觉模块组成，下面分别论证这几个模块的选择。</p>
+<h4 id="2-2-1-控制系统分析"><a href="#2-2-1-控制系统分析" class="headerlink" title="2.2.1 控制系统分析"></a>2.2.1 控制系统分析</h4><p>按照本次赛题要求，控制系统选用德州仪器TM4C123GH6PM作为主控芯片的launchpad开发板，配合传感器拓展板采集信号以及控制飞行器飞行姿态与方向。</p>
+<h4 id="2-2-2-飞行姿态控制方案分析"><a href="#2-2-2-飞行姿态控制方案分析" class="headerlink" title="2.2.2 飞行姿态控制方案分析"></a>2.2.2 飞行姿态控制方案分析</h4><ul>
+<li><p>方案一：<br>  TI芯片从MPU-6050中读取出来飞机的原始数据并进行融合，得到当前飞行器姿态，利用串级PID算法输出电调所需的PWM，从而达到控制飞行器的飞行姿态的目的。</p>
+</li>
+<li><p>方案二：<br>  采用市面上现有的APM、Pix等商用飞控板进行飞行姿态稳定的控制，再由TI芯片给与干预来达到想要的飞行方案。但模拟PPM信号，对设计和调试都是巨大的挑战，且稳定性较差。</p>
+</li>
+<li><p>方案三：<br>  采用市面上现有的飞控中的传感器集成部分与比较熟悉的STM32单片机最小系统相结合，利用TI芯片对STM32进行干预来实现比较稳定简便的飞行控制。但单片机间通信需要占用大量资源，且存在丢包的可能性，控制实时性得不到保证。</p>
+</li>
+<li><p>综合以上三种方案，选择方案一。</p>
+</li>
+</ul>
+<h4 id="2-2-3-高度传感器方案分析"><a href="#2-2-3-高度传感器方案分析" class="headerlink" title="2.2.3 高度传感器方案分析"></a>2.2.3 高度传感器方案分析</h4><ul>
+<li><p>方案一：<br>  采用SPL06气压传感器测量大气压并转换为海拔高度，把当前的海拔测量值减去起飞时的海拔值即得飞机的离地高度。但此次竞赛飞行高度相对比较低，传感器易受悬疑气流干扰，误差较大，调试较为困难。</p>
+</li>
+<li><p>方案二：<br>  采用北醒TF-MINI-PLUS激光测距传感器测量飞行器当前的飞行高度。这种传感器在较近距离测距误差较小，算法较易且价格便宜。</p>
+</li>
+<li><p>综合以上两种方案，选择方案二。</p>
+</li>
+</ul>
+<h4 id="2-2-4-动力方案分析"><a href="#2-2-4-动力方案分析" class="headerlink" title="2.2.4 动力方案分析"></a>2.2.4 动力方案分析</h4><ul>
+<li><p>方案一：<br>  采用有刷电机。有刷电机采用机械换相，寿命短，噪声大，产生电火花，效率低。它长期使用碳刷磨损严重，较易损坏，同时磨损产生了大量的碳粉尘，这些粉尘落轴承中，使轴承油加速干涸，电机噪声进一步增大。有刷电机连续使用一定时间就需更换电机内碳刷。  </p>
+</li>
+<li><p>方案二：<br>采用无刷电机。无刷电机以电子转向取代机械转向。无机械摩擦，无摩擦，无电火花，免维护且能做到更加密封等特点所以技术上要优于有刷电机。</p>
+</li>
+<li><p>综合以上两种方案，选择使用方案二无刷电机。</p>
+</li>
+</ul>
+<h3 id="2-3-系统结构工作原理"><a href="#2-3-系统结构工作原理" class="headerlink" title="2.3 系统结构工作原理"></a>2.3 系统结构工作原理</h3><h4 id="2-3-1-控制方案的设计与分析"><a href="#2-3-1-控制方案的设计与分析" class="headerlink" title="2.3.1 控制方案的设计与分析"></a>2.3.1 控制方案的设计与分析</h4><ul>
+<li><p>飞行器起飞及悬停方案设计</p>
+<p>  由TI飞控控制电调PWM占空比使四个电机加速启动让飞机得以起飞，且起飞过程中读取飞控传感器模块中的MPU6050会将姿态角传给TI飞控控制，飞控会自动调整使得起飞过程尽可能平稳，在tof激光测距模块测得飞行高度达到1.2m至1.6m之间时TI飞控使电机减速，在加速度传感器输出趋近于0时飞机基本实现平稳悬停。</p>
+</li>
+<li><p>飞行姿态控制设计</p>
+<p>  飞行器在悬停的时，MPU6050会不断将现有姿态角数据传输给TI飞控中，飞控会自动代入PID调试公式来确定现有的飞行姿态并给予调整来尽量保证飞机姿态的稳定</p>
+</li>
+<li><p>飞行高度控制</p>
+<p>  飞行高度的采集采用tof激光测距模块来实现，红外光线发出时开始计时，收到返回信号时停止计时，解算出距离后通过串口向飞控发送当前高度，飞控通过高度环PID控制飞行高度，实现定高飞行。</p>
+</li>
+</ul>
+<h4 id="2-3-2-参数的计算"><a href="#2-3-2-参数的计算" class="headerlink" title="2.3.2 参数的计算"></a>2.3.2 参数的计算</h4><ul>
+<li><p>飞行稳定的PID计算</p>
+<ul>
+<li>飞控从MPU-6050芯片获取的数据是飞行器的三轴角速度和三轴角加速度，MCU对数据进行PID算法处理可以得到飞行器当前的飞行姿态。PID是比例、积分、微分的缩写</li>
+<li>比例调节是按比例反应系统的偏差,系统一旦出现了偏差,比例调节立即产生调节作用用以减少偏差。比例作用大,可以加快调节,减少误差,但是过大的比例,使系统的稳定性下降,甚至造成系统的不稳定。</li>
+<li>积分调节是使系统消除稳态误差,提高无差度。因为有误差,积分调节就进行,直至无差,积分调节停止,积分调节输出一常值。积分作用的强弱取决与积分时间常数Ti,Ti越小,积分作用就越强。反之Ti大则积分作用弱,加入积分调节可使系统稳定性下降,动态响应变慢。积分作用常与另两种调节规律结合,组成PI调节器或PID调节器。几者结合从而保持飞行姿态稳定。</li>
+</ul>
+</li>
+<li><p>高度控制的PID计算</p>
+<p>  激光测距传感器能测量出发出红外光线到接收到红外光线之间的时间长度，通过串口向飞控发送所测量距离的长度。飞控将这个值与所需要的高度进行对比，通过PID算法调节电调PWM占空比，实现高度环控制。</p>
+</li>
+</ul>
+<h2 id="3-电路设计"><a href="#3-电路设计" class="headerlink" title="3. 电路设计"></a>3. 电路设计</h2><ul>
+<li>飞控的主控采用3.3V供电，而常见bec只能提供5v供电，所以须选择LDO稳压模块对输入电压进行降压。经过分析与调查，选用了较为常见的AMS1117-3.3作为飞控硬件电路稳压供电模块。</li>
+<li>飞控及其外围设备均采用5V供电，且电流需求较大，同时还需要通过总电源对四个电调进行供电，故选取了集成BEC的分电板，支持3-6S电池宽电压输入，其BEC模块可以达到5V3A的输出能力，经过实测，输出电压稳定在5.05V左右，满足硬件供电需求。</li>
+<li>针对飞控主控芯片TM4C123GH6PMT7芯片灵活应用的设计需求， 设计了一款Launchpad拓展板，符合主控芯片工作要求，并且对mpu6050传感器进行了温度控制，使其可以在不同工况下稳定工作，抑制零位漂移。</li>
+<li>核心电路设计均通过multisim进行仿真，满足飞控基本工作需求。<br><img src="/image/%E5%8E%9F%E7%90%86%E5%9B%BE.png" alt=""></li>
+</ul>
+<h2 id="4-软件设计"><a href="#4-软件设计" class="headerlink" title="4. 软件设计"></a>4. 软件设计</h2><p><img src="/image/%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt=""><br><img src="/image/%E7%94%B5%E8%B7%AF%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE.png" alt=""><br><img src="/image/%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE.png" alt=""></p>
+<h2 id="5-工作环境"><a href="#5-工作环境" class="headerlink" title="5. 工作环境"></a>5. 工作环境</h2><ul>
+<li><p>机载飞控系统主要包括陀螺仪；launchpad机器扩展板（集成加速度计；气压计；光流传感器）；可旋转前视视觉模块（openMV）；下视视觉模块；可旋转前视激光测距模块（TOF）；可旋转后视激光测距模块和下视激光测距模块。</p>
+</li>
+<li><p>其中，launchpad及其扩展板通过四减振球连接板与机架固连，可降低飞控振幅，对陀螺仪进行低通滤波以及在炸机时可最大限度保护飞控。</p>
+</li>
+<li><p>此外，三个可旋转传感器与拍照摄像机一起固定于飞机上方的单轴舵机旋转平台上，以满足多位置、多角度不同的检测和拍摄需要。</p>
+</li>
+<li><p>配套加工安装条件：</p>
+<p>  本团队采用自主设计的碳板-铝柱机架。因电机倒挂安装，故上碳板为主承力构件，其他电子设备采用铜柱支撑的塔式结构安装于上碳板两侧近机架重心位置处。这种安装策略可减小机架的转动惯量，使结构更加紧凑，还可以最大限度地保护飞控，传感器等核心部件。</p>
+</li>
+</ul>
+<h2 id="6-总结分析"><a href="#6-总结分析" class="headerlink" title="6. 总结分析"></a>6. 总结分析</h2><ul>
+<li><p>飞行器一键启动后，位于顶部的TOF模块旋转半周。结果分析：测得距离突变时获得距离A杆的距离和相对角度信息，并以此为依据反推飞机自身位置。</p>
+</li>
+<li><p>飞行器飞至异物处时进入悬停模式，开启运动相机的拍照功能。但拍摄的照片中，目标物体始终位于画面右侧。结果分析：目标物体在刚进入视觉模块视野时就被识别进入留待模式时间偏早，导致物体未完全进入相机视野时就开启运动相机进行拍照，后通过改变视觉模块识别范围解决。</p>
+</li>
+<li><p>飞行器在B杆外侧多次旋转导航模块，并对自身位置进行微调 结果分析：该飞行器可以使用顶部导航模块进行航线偏差修正。 </p>
+</li>
+<li><p>飞行器在无修正条件的情况下可在允许区域内飞至降落区域并降落。结果分析：飞行器可依靠光流和惯性导航实现稳定航线控制。</p>
+</li>
+</ul>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/20/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E7%9A%84%E8%87%AA%E4%B8%BB%E5%B7%A1%E6%A3%80%E6%97%A0%E4%BA%BA%E6%9C%BA/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/03/19/hello-world/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Hello World</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2019-2020
+        Ray Wong
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="RayWong Robotics"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">编程</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="https://github.com/Ray0117" target="_blank" rel="noopener">Github</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/ayer.js"></script>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>
