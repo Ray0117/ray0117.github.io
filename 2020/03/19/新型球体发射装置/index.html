@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    新型球体发射装置 |  RayWong Robotics
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/ray.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-新型球体发射装置" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  新型球体发射装置
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/03/19/%E6%96%B0%E5%9E%8B%E7%90%83%E4%BD%93%E5%8F%91%E5%B0%84%E8%A3%85%E7%BD%AE/" class="article-date">
+  <time datetime="2020-03-19T11:37:46.000Z" itemprop="datePublished">2020-03-19</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA/">机器人</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.5k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">11分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>在Robomasters全国大学生机器人大赛的规则中的一项是要求参赛队伍自主研发机器人以不高于25m/s的速度射出直径为17mm的塑料弹丸或不高于16.5m/s的速度射出直径42mm的高尔夫球打击对方机器人安装的压力板来攻击对方机器人。其中，针对需要射击高尔夫球的机器人，自主设计并制作了一种新型纵列双摩擦轮42mm弹发射机构。此发射机构与此前的横列双摩擦轮发射机构的主要不同在于其将两摩擦轮的旋转平面旋转九十度，与pitch轴旋转平面平行并将其中一个摩擦轮轴线处作为发射机构pitch方向旋转轴。经实际测试，此发射机构在仰角调整范围、高尔夫球初速稳定性、云台电机负载优化等方面相比于此前已有的横列双飞轮发射机构得到了大幅提升。</p>
+<a id="more"></a>
+
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1 引言"></a>1 引言</h2><p>在Robomasters比赛中，比赛举办方每年都会推出新一代的官方步兵车供参赛队参考，因此各参赛队也都以使用横列双摩擦轮发射机构发射17mm弹丸的官方步兵为蓝本设计高尔夫球弹发射机构。然而这种发射机构却存在以下三点主要问题：</p>
+<ol>
+<li><p>弹丸从进入发射管道到被摩擦轮加速射出之间，需要依靠重力自由滑行一过一个直角弯，导致了如果仰角过大，弹丸将无法滑行至摩擦轮处，造成卡弹。因此，发射仰角被限制在了15°以内。</p>
+</li>
+<li><p>因为储弹舱与发射机构刚性连接，所以在pitch轴云台电机上所承受的扭矩和转动惯量与余弹的重量正相关。一方面不利于云台的控制，另一方面不利于支点前后的重量调平，加大pitch轴负载。若直接放大用于高尔夫球弹发射机构，由于高尔夫球弹更大更重，此问题会更加严重。</p>
+</li>
+<li><p>储弹舱内弹丸易因为瞄准时云台的快速运动而被甩出储弹舱。<br>针对以上问题，设计制作并验证了此新型发射机构。此机构使用摩擦轮作为发射弹丸的动力来源，摩擦轮布局和结构设计思路完全不同于官方发射机构。</p>
+</li>
+</ol>
+<p>此发射机构可将发射仰角提升至80度，最终完成后可隔离储弹舱与云台且拥有pitch和yaw两个发射自由度。经测试，此发射机构的灵活度和弹丸初速相比水平横列双摩擦轮结构发射机构无明显差异。</p>
+<p><img src="/image/newball/3.png" alt="图3 发射器solid works模型装配图"></p>
+<h2 id="2-问题分析"><a href="#2-问题分析" class="headerlink" title="2 问题分析"></a>2 问题分析</h2><p>类官方发射机构的仰角较小和卡弹问题主要原因在于弹丸需要自由滑行通过转弯处，在仰角较大连续拨弹时，上一颗弹丸无法自由滑行至摩擦轮处，与下一颗弹丸在管道入口处相遇，由于弹丸间以及弹丸与拨弹叉和管道的摩擦，弹丸于拨叉之间形成死点，导致拨弹电机被堵死，造成卡弹。针对这一问题，很多参赛队对此类发射装置进行了改进，例如：</p>
+<p>西安交通大学参赛队通过在压片和直角弯处安装轴承来避免死点的出现。华盛顿大学参赛队放弃拨弹叉，使用曲柄滑块结构带动推杆（图中绿色零件）进行活塞运动，将弹丸逐个推至摩擦轮处。通过避免死点的出现来预防卡弹等。</p>
+<p><img src="/image/newball/6.png" alt="图6推杆式供弹机构"></p>
+<p>部分改进方案都是基于官方发射机构而进行优化，都能够在一定程度上解决大仰角卡弹的问题。相对于17mm弹来说，42mm弹丸直径更大，重量更重，表面摩擦和接触情况也存在较大差异。因此相同的方案能否在42mm弹发射器上使用仍需讨论。</p>
+<p>而对于引言中的2、3两个问题，若使用类官方发射机构的设计，目前的解决方法主要是增加二级弹舱或用软管连接分弹机构与发射机构。若增加二级弹舱，则发射机构的供弹控制复杂度与结构的稳定性都会受到较大影响；如果使用软管链接分弹机构与发射机构，则从下达发射指令开始，弹丸需要滚动更长距离才能到达发射机构。经调查，这种方式相对于官方发射机构会增加约0.5s的延迟。这对于运动中的精度射击来说，是很大的不利因素。</p>
+<p>因此，要在42mm发射机构上完全解决上述问题，可能需要跳出原有的框架，寻找全新的结构设计思路。</p>
+<h2 id="3-结构设计"><a href="#3-结构设计" class="headerlink" title="3 结构设计"></a>3 结构设计</h2><h3 id="3-1-摩擦轮布局设计"><a href="#3-1-摩擦轮布局设计" class="headerlink" title="3.1 摩擦轮布局设计"></a>3.1 摩擦轮布局设计</h3><p>此发射机构设计的最主要目的是取消需要弹丸自由滑行的管道，使弹丸在滑行过程中提前与摩擦轮接触，在摩擦轮的动力下通过完成从轨道入口到摩擦轮处的大角度转向，以此来解决仰角过小和卡弹的问题。因此，我将摩擦轮的安装平面旋转90度，使弹丸从落到轨道开始直至离开两摩擦轮始终与上侧摩擦轮接触。</p>
+<p><img src="/image/newball/7.png" alt="图7"></p>
+<div style='display: none'>
+### 3.2 俯仰轴运动设计及理论计算
+
+<p>两摩擦轮（图8紫色零件）电机通过一固定长度的连接板（图8青色零件）链接，连接板连接与上侧摩擦轮同轴的圆柱形尼龙衬套，可在侧固定板（图8黄色零件）上的孔内旋转。轨道系统由固定轨道（图8绿色零件），活动轨道（图8蓝色零件），导出轨道（图8红色零件）组成，每一个轨道系统组成部分都可限定弹丸在轨道内的横向位置。</p>
+<p>当pitch轴运动时，由6623云台电机（图8黑色零件）带动连杆系统（图8橙色零件）驱动电机连接板绕上侧摩擦轮电机转轴转动，从而调整pitch轴角度。由图可见，导出轨道与固定轨道之间的距离会随发射仰角的变化而改变，因此，需</p>
+</div>
+
+<h3 id="3-2-俯仰轴运动设计"><a href="#3-2-俯仰轴运动设计" class="headerlink" title="3.2 俯仰轴运动设计"></a>3.2 俯仰轴运动设计</h3><p>两摩擦轮（图中紫色零件）电机通过一固定长度的连接板（图中青色零件）链接，连接板连接与上侧摩擦轮同轴的圆柱形尼龙衬套，可在侧固定板（图中黄色零件）上的孔内旋转。轨道系统由固定轨道（图中绿色零件），活动轨道（图中蓝色零件），导出轨道（图中红色零件）组成，每一个轨道系统组成部分都可限定弹丸在轨道内的横向位置。</p>
+<p><img src="/image/newball/8.png" alt="图8弹丸在轨道内的运动路径示意图"></p>
+<h3 id="3-3-弹丸路径设计"><a href="#3-3-弹丸路径设计" class="headerlink" title="3.3 弹丸路径设计"></a>3.3 弹丸路径设计</h3><p>为保证弹丸可在摩擦轮的动力下通过轨道转弯处全程，需要使弹丸在从与上侧摩擦轮接触后到运动至两摩擦轮连线终点处之间的距离上始终与上摩擦轮接触，也就是说在这一段，弹丸需要以上侧摩擦轮转轴为圆心进行圆周运动，因此，弹丸路径的A段（图中棕色段）为一与上侧摩擦轮同心，半径R=55mm的圆弧。为确保弹丸落入轨道，在轨道入口处设置进入段（图中黑色段），进入段区域的横截面积略大于轨道区域的横截面积，并设有前后挡板（块）确保弹丸不会过早接触摩擦轮而造成反跳或在轨道内剧烈抖动。为链接进入段与圆弧段，设置了过渡段（图中灰色段），过渡段两段曲线由进入段和圆弧段两端点的切线和曲线延长线拟合而成。过渡段内，轨道横截面积逐渐减小，过渡段路径曲线与上侧飞轮轴线距离逐渐减小并最终进入圆弧段。经两飞轮共同加速后，弹丸沿发射段（图中绿色段）从轨道末端射出发射机构，完成整个发射过程。</p>
+<p><img src="/image/newball/11.png" alt="图8弹丸在轨道内的运动路径示意图"></p>
+<h2 id="4-材料选择及加工方法"><a href="#4-材料选择及加工方法" class="headerlink" title="4 材料选择及加工方法"></a>4 材料选择及加工方法</h2><h3 id="4-1-侧板材料选择及加工方法"><a href="#4-1-侧板材料选择及加工方法" class="headerlink" title="4.1 侧板材料选择及加工方法"></a>4.1 侧板材料选择及加工方法</h3><p>侧板是整个发射机构中的骨架，直接或间接固定了整个机构的几乎所有部分零件之间的位置和配合关系，承受着较大的弯矩和拉力，同时也要固定上侧的衬套，使其旋转轴尽可能少出现晃动或倾斜得情况，所以侧板的设计厚度为12mm。为了方便今后的故障检查和观察发射机构内部情况，侧板还需要使用透明材料。由于比赛对机器人存在限重，故侧板需要尽可能减轻重量。因此，选择使用刚度和任性均比较适合在此情况下使用的亚克力板作为侧板的制作材料。为方便加工和后期修改方案，使用3块4mm厚度的亚克力板相叠组成侧板，三者通过螺栓和销钉进行连接以确保其不会产生相对滑动。</p>
+<p>由于侧板通孔较多，外形不规则，要求精度高，切单层亚克力板厚度较薄，故使用数控激光切割机对整块亚克力板进行数控加工一次成型。</p>
+<h3 id="4-2-轨道和其他零件材料选择及加工方法"><a href="#4-2-轨道和其他零件材料选择及加工方法" class="headerlink" title="4.2 轨道和其他零件材料选择及加工方法"></a>4.2 轨道和其他零件材料选择及加工方法</h3><p>一方面由于当前该发射机构处于验证测试阶段，轨道的曲线数据通过拟合的方式得出，与弹丸接触点的形状也有可能存在缺陷，这些都需要经过实物测试后才能得出最有解决方案，所以轨道在装配和测试阶段有很大改动的可能性。另一方面因为外形较为复杂，存在台阶结构。若传统加工方式一方面精度难以保证，另一方面加工时间过长，不利于随时改动，所以考虑使用加工中心加工。由于存在重量限制，轨道系统零件体积较大，故不适用铝合金或不锈钢等常用金属材料。考虑到尼龙优异的机械性能和自润滑性，计划使用4轴cnc加工尼龙材料的方式进行加工。后经深入了解，尼龙在加工前无法消除生产过程中产生的内应力，导致在加工成台阶形状后在边缘处会产生严重的形变，且形变会随时间和环境（湿度，温度等）变化而改变。对于发射机构的轨道这种要求精度较高的零件来说，产生的形变可能会对弹丸射击时的弹道，速度等稳定性造成很大影响，因此，放弃使用尼龙加工的计划。<br>考虑了成本，速度，灵活性和精度四个方面后，选择以pla塑料为耗材，使用桌面级fdm式3d打印机的成型方式制作轨道系统的所有零件。此后的连杆以及其他的定制零件，也都采用相同方式进行加工。</p>
+<h3 id="4-3-电子元器件选择"><a href="#4-3-电子元器件选择" class="headerlink" title="4.3 电子元器件选择"></a>4.3 电子元器件选择</h3><p>云台驱动电机使用6623。摩擦轮电机使用kv值为400的4114无刷电机和40A无刷电机电调，单个电机在22.4v电压下的转速为8960r/min,摩擦轮外径70mm，则摩擦轮外表面线速度可达到32.8m/s。经测试，在双摩擦共同轮加速处，弹丸可加速至与摩擦轮表面共速，同时摩擦轮表面线速度也会降至25m/s左右。因此需要降低电调输入信号的pwm波占空比来调节合适速度满足比赛规则的需要。</p>
+<h2 id="5-装配"><a href="#5-装配" class="headerlink" title="5 装配"></a>5 装配</h2><p>因为几乎所有零件都与侧板固定，所以装配方法选择分别以左右侧板为装配基准，先在侧板上和侧板的通孔内顺序安装各个零件，之后再将左右侧板合并的方法完成安装。</p>
+<p>主要使用12.9级M3和M5规格螺栓螺母对零件进行紧固。由于摩擦轮转速较高，所以在运行时会产生震动，普通螺母和法兰螺母容易松动，因此整个发射机构主要使用尼龙防滑螺母与螺栓配合进行紧固并在必要时使用弹簧垫片和金属垫圈。<br>对于活动轨道，由于加工方法的限制，活动轨道由4条不完整的轨道部分组成。由于活动轨道厚度较小且由于两侧处在固定轨道的槽口内，均不能外凸，因此不能直接使用螺栓螺母进行固定。</p>
+<p><img src="/image/newball/13.png" alt="图10活动轨道的四个组成部分"></p>
+<h2 id="6-测试"><a href="#6-测试" class="headerlink" title="6 测试"></a>6 测试</h2><p>经初步简单测试，在16v满功率情况下各仰角时弹丸初速大于20m/s，怠速点点情况下各仰角时初速不低于7m/s。</p>
+<p>pitch轴电机扭力可以使pitch仰角在80至-10度内灵活调整，且各仰角下均可以发射出符合比赛要求的弹丸，且不出现卡弹的情况。</p>
+<p>由于目前条件下极度缺少测量设备，难以测得更加精确和全面的数据，当条件具备后会继续更新测试数据内容。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/03/19/%E6%96%B0%E5%9E%8B%E7%90%83%E4%BD%93%E5%8F%91%E5%B0%84%E8%A3%85%E7%BD%AE/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Robomaster/" rel="tag">Robomaster</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/" rel="tag">机器人</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2020/03/20/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E7%9A%84%E8%87%AA%E4%B8%BB%E5%B7%A1%E6%A3%80%E6%97%A0%E4%BA%BA%E6%9C%BA/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            基于机器视觉的自主巡检无人机
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/03/19/hello-world/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Hello World</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2019-2020
+        Ray Wong
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278705337&amp;web_id=1278705337'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ray.svg" alt="RayWong Robotics"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/Photos">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="https://github.com/Ray0117" target="_blank" rel="noopener">Github</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/ayer.js"></script>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>
