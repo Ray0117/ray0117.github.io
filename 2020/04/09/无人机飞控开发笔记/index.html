@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    无人机飞控开发笔记 |  RayWong Robotics
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/ray.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-无人机飞控开发笔记" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  无人机飞控开发笔记
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/09/%E6%97%A0%E4%BA%BA%E6%9C%BA%E9%A3%9E%E6%8E%A7%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-04-09T06:43:23.000Z" itemprop="datePublished">2020-04-09</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%97%A0%E4%BA%BA%E6%9C%BA/">无人机</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.9k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">15分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>这份笔记是我在GitHub上的飞控代码<a href="https://github.com/Ray0117/AeroFirmware" target="_blank" rel="noopener">AeroFirmware</a>开发过程中留下的开发笔记，记录了大部分代码文件的使用方法与功能，包含TM4C单片机基础的控制、传感器通信、捷联惯导、视觉接口等方面，如有不足之处欢迎批评指正。</p>
+<a id="more"></a>
+
+
+<h1 id="机器视觉SDK"><a href="#机器视觉SDK" class="headerlink" title="机器视觉SDK"></a>机器视觉SDK</h1><p>点/线的实现，SDK函数调用实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Time_Cnt.c</span></span><br><span class="line">SDK_Data_Prase();<span class="comment">//SDK数据解析</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//SDK.c</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SDK_Data_Prase</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>判断字长以及环形队列缓冲区中的帧头，函数执行时间为10ms</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SDK_Data_Receive_Prepare</span><span class="params">(u8 data)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="keyword">else</span> <span class="title">if</span><span class="params">(state==<span class="number">2</span>&amp;&amp;data&lt;<span class="number">0XFF</span>)</span><span class="comment">//功能字节</span></span></span><br></pre></td></tr></table></figure>
+
+<p>通过不同的功能字将数据存到对应的功能结构体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Openmv_Data_Receive_Anl</span><span class="params">(u8 *data_buf,u8 num)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>判断帧头以及奇偶校验，可以自己定义功能字</p>
+<p>0XC0-色块检测，0XF3-线检测，0XF2-点检测</p>
+<p>串口数传SDK模式 0X01–&gt;高度位置控制</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(SDK_Point.flag!=<span class="number">0</span>)  </span><br><span class="line">   &#123;</span><br><span class="line">     <span class="keyword">if</span>(SDK_Point.trust_Cnt&lt;=<span class="number">20</span>)   SDK_Point.trust_Cnt++;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span> SDK_Point.trust_Cnt/=<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(SDK_Point.trust_Cnt&gt;=<span class="number">10</span>)   SDK_Point.trust_flag=<span class="number">1</span>; </span><br><span class="line">   <span class="keyword">else</span> SDK_Point.trust_flag=<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>不希望飞机做过大的机动动作，意味着可能调整时候就找不到点了，信任程度，连续20次找到才确认是要找的点</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SDK_Target_Offset.x=SDK_TARGET_X_OFFSET;</span><br><span class="line">SDK_Target_Offset.y=SDK_TARGET_Y_OFFSET;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SDK_Target.x=(Pixel_Size*(<span class="number">40</span>-SDK_Point.x)*NamelessQuad.Position[_YAW])/Focal_Length</span><br><span class="line">    +NamelessQuad.Position[_YAW]*<span class="built_in">tan</span>(Roll* DEG2RAD)-SDK_Target_Offset.x;</span><br><span class="line">SDK_Target.y=(Pixel_Size*(<span class="number">30</span>-SDK_Point.y)*NamelessQuad.Position[_YAW])/Focal_Length</span><br><span class="line">    +NamelessQuad.Position[_YAW]*<span class="built_in">tan</span>(Pitch* DEG2RAD)-SDK_Target_Offset.y;  </span><br><span class="line">SDK_Line_DT_Reset();</span><br></pre></td></tr></table></figure>
+
+<p>OFFSET即为OPENMV安装在机架的偏移位置，单位为cm，使定点位置为中心</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span>  Pixel_Size    0.0048<span class="comment">//80*60是0.0048,640*480是0.0060</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>  Focal_Length  0.42</span></span><br></pre></td></tr></table></figure>
+
+<p>Pixel_Size-像素点占cmos的尺寸，要乘以一个系数，根据图像的大小选取不同的值<br>Focal_Length-焦距，这个值需要实际测试</p>
+<h1 id="基础代码部分"><a href="#基础代码部分" class="headerlink" title="基础代码部分"></a>基础代码部分</h1><h2 id="Library-TM4C自带库"><a href="#Library-TM4C自带库" class="headerlink" title="Library TM4C自带库"></a>Library TM4C自带库</h2><p>中断优先级函数<br>定时器 5ms任务调度<br>添加预编译库 节省编译时间</p>
+<h2 id="User"><a href="#User" class="headerlink" title="User"></a>User</h2><p>main函数开始看<br>TIVA自带库不需要修改</p>
+<h2 id="Src"><a href="#Src" class="headerlink" title="Src"></a>Src</h2><p>滤波函数<br>6050内部有低通滤波器但是效果差，巴特沃斯低通滤波器设置多种滤波参数，5hz反馈，60hz惯导，陷波滤波器对特定频率滤波，消除机架共振频率；验证函数；<br>二阶低通在中频噪声仍然存在，用四阶低通滤除<br>多项式系数，计算杨辉三角</p>
+<h2 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h2><p>解析PVT<br>循环队列缓冲区<br>Ublox协议</p>
+<h2 id="Key"><a href="#Key" class="headerlink" title="Key"></a>Key</h2><p>按键，看标号，基本数据，Baro气压计原始数据转换相对高度，HC04超声波，GPS融合数据小于3好<br>校准加速度计增益零偏<br>模式只显示定高定点、循迹光流不显示<br>自稳PID参数。第六页光流数据，SDK显示，SDK设置页面，切换俯仰控制量。<br>加速度、磁力计校准信息，功能是显示临时数据<br>13页传感器原始数据</p>
+<h2 id="mpu6050"><a href="#mpu6050" class="headerlink" title="mpu6050"></a>mpu6050</h2><p>没有使用DMP，解算原始数据，内部采样快一些，初始化标定零偏。在地上放好了插电。<br>Init陀螺仪姿态解算滤波器参数、校准参数。<br>加速度计校准是重力加速度自然作用在六轴上的参数。<br>姿态解算主体传感器是陀螺仪，惯导的主体传感器是加速度计。加速度计可以抑制陀螺仪的偏移，加速度计检测比力模型，需要有传感器测出运动加速度观测量，使用GPS/光流获得，正北正东加速度转到载体上，传感器更新周期不一样，数据有延时相位不对准，修正之前的运动加速度，不修正当前的运动加速度，等到下一个外部传感器周期再消除。加速度计是积分关系，噪声乘以积分时间很小，兼顾实时性60Hz。<br>温度数据，用来温控。</p>
+<h2 id="myiic"><a href="#myiic" class="headerlink" title="myiic"></a>myiic</h2><p>iic0:外部磁力计，可插拔，使用的iic标准库。加大通信频率，磁力计8310最大频率较慢，设置两个时序上较慢，外部磁力计，调快气压计采样频率。</p>
+<p>softiic：模拟iic，采部分数据</p>
+<h2 id="OLED"><a href="#OLED" class="headerlink" title="OLED"></a>OLED</h2><p>两种OLED一种是iic一种是spi，默认是iic，修改宏定义打开。，显示屏驱动，ssd1306，GUI的库可以完成配置。主要使用画线、三角形等，可以自己修改。不重要</p>
+<h2 id="OpticalFlow"><a href="#OpticalFlow" class="headerlink" title="OpticalFlow"></a>OpticalFlow</h2><p>世面能买到的光流都支持，自己写配置要注意，UARTCharGet不到数据，数据在缓冲区，配置之前不应该把串口中断打开。中断在配置后注册，</p>
+<h1 id="控制部分"><a href="#控制部分" class="headerlink" title="控制部分"></a>控制部分</h1><h2 id="PID"><a href="#PID" class="headerlink" title="PID"></a>PID</h2><p>初始化里有一个表，PID和限幅需要赋值，其他的如总输出不需要输入值<br>表是为了方便后边的配置。看自稳参数，和上位机可能有区别，<br>pid主要调整自稳内环参数<br>三个角速度环Pitch_Gyro、Roll_Gyro、Yaw_Gyro(内环)<br>  内环的调整主要调整p、d，积分一开始可以只加一点</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="number">1</span>  ,<span class="number">1</span> ,<span class="number">0</span> ,<span class="number">0</span> ,<span class="number">0</span> ,<span class="number">0</span> , <span class="number">0</span> ,<span class="number">600</span> ,<span class="number">0</span>  ,<span class="number">0</span> , <span class="number">300</span>,  <span class="number">0.60</span> (Kp)  ,<span class="number">1.5000</span>  ,<span class="number">0.80</span> (Kd) ,<span class="number">0</span>  ,<span class="number">0</span> , <span class="number">500</span>,  <span class="number">1</span> ,  <span class="number">1</span> ,  <span class="number">1</span> &#125;,<span class="comment">//Pitch_Gyro;偏航角速度</span></span><br></pre></td></tr></table></figure>
+
+<p>  外环的调整，比赛用的无人机主要调整Kp=4-6,</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="number">1</span>  ,<span class="number">1</span> ,<span class="number">0</span> ,<span class="number">0</span> ,<span class="number">0</span> ,<span class="number">0</span> , <span class="number">0</span> ,<span class="number">30</span>  ,<span class="number">0</span>  ,<span class="number">0</span> , <span class="number">80</span>,   <span class="number">4.00</span>(Kp)  ,<span class="number">0.0000</span>  ,<span class="number">0.00</span>  ,<span class="number">0</span>  ,<span class="number">0</span> , <span class="number">800</span>,  <span class="number">1</span> ,  <span class="number">1</span> ,  <span class="number">1</span> &#125;,<span class="comment">//Pitch_Angle;偏航角度</span></span><br></pre></td></tr></table></figure>
+
+<p>宏定义可以改变高度环不要加速度，不要加速度速度环积分要变大。</p>
+<p>if (YAW_Pos_Control_Accel_Disable==1)</p>
+<p>高度位置和速度只用了单p，控制姿态就是控制加速度，所以没有必要给水平加上加速度环</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/********偏航角偏差超过+-180处理**********/</span></span><br><span class="line"><span class="keyword">if</span>(Controler-Err&lt;<span class="number">-180</span>)  Controler-Err=Controler-Err+<span class="number">360</span>;</span><br><span class="line"><span class="keyword">if</span>(Controler-Err180)  Controler-Err=Controler-Err<span class="number">-360</span>;</span><br></pre></td></tr></table></figure>
+
+<p>最小代价调整偏航</p>
+<p>Scale_Kp/i/d 用于一键起飞等场景，修改增益，可以零时修改pid</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Total_Controller.High_Acce_Control.Scale_Kp=<span class="number">1.0f</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="控制器低通滤波"><a href="#控制器低通滤波" class="headerlink" title="控制器低通滤波"></a>控制器低通滤波</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">PID_Control_Div_LPF</span><span class="params">(PID_Controler *Controler)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>陀螺仪微分低通</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">PID_Control_Err_LPF</span><span class="params">(PID_Controler *Controler)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>偏差低通，机架存在噪声，加速度环<br>改成只对微分低通，切换的过程中油门会突变，加了低通油门较为柔和</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">PID_Control_SDK_Err_LPF</span><span class="params">(PID_Controler *Controler,<span class="keyword">uint8_t</span> Differential_Enable_Flag)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>SDK偏差低通，位置反馈来自openmv，openmv的数据有噪声，实践得出的结果<br>和加速度的偏差低通，区别在于刷新频率是100hz，而加速度计的是imu的频率</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">PID_Control_Div_LPF_For_Gyro</span><span class="params">(PID_Controler *Controler)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>陀螺仪微分低通，微分项参数是动态的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Controler-Adaptable_Kd=Controler-Kd*(<span class="number">1</span>+Controler-Dis_Error_History[<span class="number">0</span>]/<span class="number">250.0f</span>);<span class="comment">//自适应微分参数</span></span><br></pre></td></tr></table></figure>
+
+<p>和偏差的变化率相关的一个参数，角加速度相关的自适应Kd，防止打杆过冲，保证快速打杆的控制要求，模型是非线性的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Take_Off_Reset</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>复位函数，积分清空，存在角度的静差，在地面转速不一样。<br>定点的位置和速度清空，放在地面不开启积分，从而保证垂直起飞。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Throttle_Control_Reset</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>自稳切定高麻烦，在空中任何适合都可以切定高，保持当前高度。和清空积分类似</p>
+<h2 id="RC-遥控器"><a href="#RC-遥控器" class="headerlink" title="RC 遥控器"></a>RC 遥控器</h2><p>PPM两次沿是一帧，判断单个通道是否满足条件<br>解析通道数据进行映射，默认30°</p>
+<p>前四个通道都加了滤波，遥控器回弹噪声较大，控制器微分项噪声较大，不处理的话快速回弹会有问题。</p>
+<p>开关档调整在控制函数使用</p>
+<p>解锁逻辑有一个互锁，可以防止其他的校准操作影响。修改映射位。</p>
+<p>参考APM飞控</p>
+<p>中间变量要全部清空才能连续切换模式</p>
+<h2 id="Ringbuf-环形队列缓冲区"><a href="#Ringbuf-环形队列缓冲区" class="headerlink" title="Ringbuf 环形队列缓冲区"></a>Ringbuf 环形队列缓冲区</h2><p>   此缓冲区仅存数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RingBuf_Write</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> data,RingBuff_t *ringBuff,<span class="keyword">uint16_t</span> Length)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>在Usart中使用到了此缓冲区，单帧100 存200 保证有一个数据是完整的。<br>SDK一个帧是12字节，BUF=FRAME*2，</p>
+<h1 id="捷联惯导部分"><a href="#捷联惯导部分" class="headerlink" title="捷联惯导部分"></a>捷联惯导部分</h1><h2 id="SINS相关代码"><a href="#SINS相关代码" class="headerlink" title="SINS相关代码"></a>SINS相关代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Vector_From_BodyFrame2EarthFrame</span><span class="params">(Vector3f *bf,Vector3f *ef)</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Vector_From_EarthFrame2BodyFrame</span><span class="params">(Vector3f *ef,Vector3f *bf)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>两个相反功能函数<br>地理坐标系有一个初始原点，进行向量运算，加速度计减去重力加速度</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">SINS_Prepare</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>准备函数，SINS结构体用于惯导融合，原理是旋转矩阵，Z-Y-X顺序，旋转组合不同，角度表示不同，原始惯导加速度为原始驱动量</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SINS_Accel_Body.x=SINS_Accel_Earth.x*Cos_Yaw+SINS_Accel_Earth.y*Sin_Yaw;</span><br></pre></td></tr></table></figure>
+
+<p> 光流只有载体俯仰或者横滚，把原始运动加速度，转换到两个方向，还是在载体系</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Body_Frame.x=LPButterworth(accel.x,&amp;accel_feedback_filter_buf[<span class="number">0</span>],&amp;Butter_80HZ_Parameter_Acce);</span><br></pre></td></tr></table></figure>
+
+<p>加速度反馈，高度方向加速度环，80Hz巴特沃斯低通，PID中偏差低通只有2Hz</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">KalmanFilter</span><span class="params">(<span class="keyword">float</span> Observation, uint16 Pos_Delay_Cnt, SINS *Ins_Kf,<span class="keyword">float</span> System_drive, <span class="keyword">float</span> *R,<span class="keyword">float</span> Q,<span class="keyword">float</span> dt, uint16 N,<span class="keyword">uint8_t</span> update_flag)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>高度方向卡尔曼滤波，认为短时间匀加速直线运动，y位置，v速度，过程噪声来自时间上的噪声，观测方程：观测量为全观测，高度只有位置观测量，观测噪声要调，观测量和先验估计做差乘以卡尔曼滤波增益修正先验状态，先验协方差矩阵是临时变量</p>
+<blockquote>
+<p>调参过程</p>
+<p>Ra 过程噪声，调大就是认为加速度噪声比较大，即不信任加速度计，噪声是相对的。Ra小速度实时性较好。</p>
+<p>Q  观测噪声，对气压计的噪声大小，在很大范围内是收敛的，融合是为了抑制加速度计的漂移，做惯导融合要保证收敛。<br>融合超前气压计参数，气压计会漂移，</p>
+<p>Z_Cor 观测量减去历史估计值，=0表示不修正只用惯导更新</p>
+<p>Ra基本不用调，可以只调Q，保证收敛，调大实时性好，调小突变估计值会被拉偏，需要写逻辑限制</p>
+</blockquote>
+<h2 id="卡尔曼滤波延时参数设置"><a href="#卡尔曼滤波延时参数设置" class="headerlink" title="卡尔曼滤波延时参数设置"></a>卡尔曼滤波延时参数设置</h2><p>#define SPL06_Sync_Cnt  25//30<br>改变延时参数，改大会先超调再下降，如果参数合适，会直接上升到估计高度，相位是直接平移的。20-25都可以，超声波气压计有区别，惯导和超声波要综合考虑</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Cnt=Num<span class="number">-1</span>;Cnt0;Cnt--)<span class="comment">//5ms滑动一次 和源代码有区别</span></span><br><span class="line">&#123;</span><br><span class="line">  Ins_Kf-Pos_History[N][Cnt]=Ins_Kf-Pos_History[N][Cnt<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="防止高度突变"><a href="#防止高度突变" class="headerlink" title="防止高度突变"></a>防止高度突变</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Controler_High_Mode==<span class="number">2</span>)</span><br><span class="line"> &#123;</span><br><span class="line">       <span class="comment">//观测量微分即速度的范围要小于历史惯导值的n倍</span></span><br><span class="line">       <span class="keyword">if</span>((ABS(observation_div)&lt;=<span class="number">30</span>*ABS(Ins_Kf-Vel_History[N][Pos_Delay_Cnt]))</span><br><span class="line">       <span class="comment">//5g加速度，欠驱动模型，下降最高1g</span></span><br><span class="line">            &amp;&amp;ABS(observation_acc)&lt;=<span class="number">5000</span><span class="comment">//5000cm/s^2约等于5g加速度，多旋翼达不到</span></span><br><span class="line">            <span class="comment">//上升下降不会超过15m/s</span></span><br><span class="line">            &amp;&amp;ABS(observation_div)&lt;=<span class="number">1500</span>)<span class="comment">//15m/s</span></span><br><span class="line">      &#123;</span><br><span class="line">        last_observation=Observation;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        Observation=last_observation;</span><br><span class="line">        observation_reset_flag=<span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(Controler_High_Mode==<span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="keyword">if</span>((ABS(observation_div)&lt;=<span class="number">30</span>*ABS(Ins_Kf-Vel_History[N][Pos_Delay_Cnt])))</span><br><span class="line">           last_observation=Observation;</span><br><span class="line">      <span class="keyword">else</span> Observation=last_observation;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> Observation=last_observation;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//如果观测误差太大，切满足复位条件，直接相信加速度计估计值而没有做修正</span></span><br><span class="line">  <span class="keyword">if</span>(observation_reset_flag==<span class="number">1</span>&amp;&amp;ABS(Z_Cor)=<span class="number">100</span>)  </span><br><span class="line">  &#123;</span><br><span class="line">    Z_Cor=<span class="number">0</span>;</span><br><span class="line">    observation_reset_flag=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上操作可以保证在气压计突变时不影响惯导高度</p>
+<h2 id="高度方向观测传感器自由切换"><a href="#高度方向观测传感器自由切换" class="headerlink" title="高度方向观测传感器自由切换"></a>高度方向观测传感器自由切换</h2><p>切气压计时加上超声波的基准高度<br>观测传感器强行赋值,同时保证卡尔曼滤波历史值正确</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NamelessQuad.Position[_YAW]=US_Distance;</span><br><span class="line">      <span class="keyword">for</span>(Cnt=Num<span class="number">-1</span>;Cnt0;Cnt--)&#123;NamelessQuad.Pos_History[_YAW][Cnt]=US_Distance;&#125;</span><br><span class="line">      NamelessQuad.Pos_History[_YAW][<span class="number">0</span>]=US_Distance;</span><br><span class="line">      Total_Controller.High_Position_Control.Expect=US_Distance;</span><br></pre></td></tr></table></figure>
+
+<h2 id="球面投影-GPS卡尔曼滤波"><a href="#球面投影-GPS卡尔曼滤波" class="headerlink" title="球面投影/GPS卡尔曼滤波"></a>球面投影/GPS卡尔曼滤波</h2><p>GPS融合 提供坐标给返航功能，定点画圆是磁偏角有问题</p>
+<p>加速度计坐标变换 GPS是全观测，调参一次只调一个</p>
+<h1 id="传感器及地面站部分"><a href="#传感器及地面站部分" class="headerlink" title="传感器及地面站部分"></a>传感器及地面站部分</h1><h2 id="SPL06"><a href="#SPL06" class="headerlink" title="SPL06"></a>SPL06</h2><p>SPL06精度较高，传感器做过内部平均，精度一般是指短时间的精度，读取时候交替采部分</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spl0601_get_calib_param();<span class="comment">// 读取初始校准参数</span></span><br></pre></td></tr></table></figure>
+
+<p>读取出厂参数，计算当前气压和温度值。<br>PaRMS：过采样次数，每秒采部分多少数据，内部平均越多，测量时间越大，<br>采样次数：输出的次数 平均次数：内部多次采样输出一次</p>
+<p>采样间隔55ms，气压计和温度交替采部分 </p>
+<h2 id="Time"><a href="#Time" class="headerlink" title="Time"></a>Time</h2><p>定时器 标准库滴答计时器 80Mhz </p>
+<h2 id="Time-Cnt"><a href="#Time-Cnt" class="headerlink" title="Time_Cnt"></a>Time_Cnt</h2><p>系统调度定时器，定时器模拟调度系统，5ms中断时间，定时器优先级最低，所以定时器优先级都要比调度高，时间开销比较大。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TIMER0A_Handler</span><span class="params">(<span class="keyword">void</span>)</span>        <span class="comment">//系统调度中断函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Test_Period(&amp;Time0_Delta);</span><br><span class="line">  Remote_Control();               <span class="comment">//遥控器数据解析</span></span><br><span class="line"></span><br><span class="line">  Get_Status_Feedback();          <span class="comment">//获取姿态数据、水平竖直方向惯导数据</span></span><br><span class="line">  US_100_Statemachine();          <span class="comment">//超声波传感器状态机更新</span></span><br><span class="line">  Optflow_Statemachine();         <span class="comment">//光流状态机，初始化时存在光流外设</span></span><br><span class="line">  SDK_Data_Prase();               <span class="comment">//SDK数据解析</span></span><br><span class="line">  GPS_Data_Prase();               <span class="comment">//GPS数据解析</span></span><br><span class="line">  KalmanFilter_Horizontal();      <span class="comment">//水平位置GPS双观测量卡尔曼滤波融合</span></span><br><span class="line"></span><br><span class="line">  CarryPilot_Control();           <span class="comment">//总控制器</span></span><br><span class="line"></span><br><span class="line">  Accel_Calibration_Check();      <span class="comment">//加速度校准检测</span></span><br><span class="line">  Mag_Calibration_Check();        <span class="comment">//磁力计校准检测</span></span><br><span class="line">  ESC_Calibration_Check();        <span class="comment">//电调行程校准检测</span></span><br><span class="line">  Horizontal_Calibration_Check(); <span class="comment">//机架水平校准检测</span></span><br><span class="line"></span><br><span class="line">  Bling_Working(Bling_Mode);      <span class="comment">//状态指示灯运行</span></span><br><span class="line">  TimerIntClear(TIMER0_BASE,TIMER_TIMA_TIMEOUT);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>遥控器是系统输入-期望，获得三个方向十五组状态量——反馈，经过总控制器-控制 以及 校准检测和状态指示灯</p>
+<h2 id="US-100"><a href="#US-100" class="headerlink" title="US_100"></a>US_100</h2><p>超声波模块，US100不是自动工作，需要触发控制帧，返回数据有2个字节，需要4个字节的Buffer，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Start_Tail==<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      US_Distance=US_100_Distance(COM7_Rx_Buf.Ring_Buff[<span class="number">2</span>],</span><br><span class="line">                                  COM7_Rx_Buf.Ring_Buff[<span class="number">3</span>]);</span><br><span class="line">      US_100_Update_Flag=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>查找帧头位置，再合成两个字节</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">US_Distance_Div=(US_Distance-Last_US_Distance)/<span class="number">0.1f</span>;</span><br><span class="line">US_Distance_Acc=(US_Distance_Div-Last_US_Distance_Div)/<span class="number">0.1f</span>;</span><br></pre></td></tr></table></figure>
+
+<p>高度融合中使用的竖直方向速度，来源于距离微分以及再次微分获得加速度。<br>/0.1f是因为100ms刷新一次</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(US_Distance&lt;=User_Height_Max&amp;&amp;US_Distance0)  Sensor_Flag.Hcsr04_Health=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">else</span>  Sensor_Flag.Hcsr04_Health=<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>设置高度为2.4米，为了防止数据出错，判断传感器数据是否健康</p>
+<h2 id="SYSTEM"><a href="#SYSTEM" class="headerlink" title="SYSTEM"></a>SYSTEM</h2><p>系统初始化函数，最后在进行飞控调度定时器初始化，其他准备工作需要全部准备好</p>
+<h2 id="Usart"><a href="#Usart" class="headerlink" title="Usart"></a>Usart</h2><p>优先级 PPM优先级最高，PPM数据会跳变，如果其他中断开销大且优先级高，会导致PPM解析脉宽会多10us，尽可能降低中断开销。PPM自身开销很小，要保证串口数据周期要小于PPM开销，否则会丢帧。</p>
+<h2 id="匿名地面站"><a href="#匿名地面站" class="headerlink" title="匿名地面站"></a>匿名地面站</h2><h3 id="第一列"><a href="#第一列" class="headerlink" title="第一列"></a>第一列</h3><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">数据</th>
+<th align="center"></th>
+<th align="center">实际参数含义</th>
+<th align="center">地面站</th>
+<th align="center">对应显示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Roll</td>
+<td align="center">Pitch</td>
+<td align="center">Yaw</td>
+<td align="center">角速度环PID</td>
+<td align="center">匿名地面站</td>
+<td align="center">速率PID</td>
+</tr>
+<tr>
+<td align="center">Roll</td>
+<td align="center">Pitch</td>
+<td align="center">Yaw</td>
+<td align="center">角度环PID</td>
+<td align="center">匿名地面站</td>
+<td align="center">自稳PID</td>
+</tr>
+</tbody></table>
+<h3 id="第二列"><a href="#第二列" class="headerlink" title="第二列"></a>第二列</h3><table>
+<thead>
+<tr>
+<th align="center">实际参数含义</th>
+<th align="center">地面站</th>
+<th align="center">对应显示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">高度方向速度参数</td>
+<td align="center">匿名地面站</td>
+<td align="center">高度速率PID</td>
+</tr>
+<tr>
+<td align="center">高度方向位置参数</td>
+<td align="center">匿名地面站</td>
+<td align="center">高度保持PID</td>
+</tr>
+<tr>
+<td align="center">高度加速度环参数</td>
+<td align="center">匿名地面站</td>
+<td align="center">PID11</td>
+</tr>
+</tbody></table>
+<h3 id="第三列"><a href="#第三列" class="headerlink" title="第三列"></a>第三列</h3><table>
+<thead>
+<tr>
+<th align="center">实际参数含义</th>
+<th align="center">地面站</th>
+<th align="center">对应显示</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">光流位置参数</td>
+<td align="center">匿名地面站</td>
+<td align="center">PID13</td>
+</tr>
+<tr>
+<td align="center">光流速度参数</td>
+<td align="center">匿名地面站</td>
+<td align="center">PID14</td>
+</tr>
+<tr>
+<td align="center">SDK的Roll参数</td>
+<td align="center">匿名地面站</td>
+<td align="center">PID15</td>
+</tr>
+<tr>
+<td align="center">经纬度速率</td>
+<td align="center">匿名地面站</td>
+<td align="center">位置PID9</td>
+</tr>
+<tr>
+<td align="center">经纬度位置</td>
+<td align="center">匿名地面站</td>
+<td align="center">位置PID10</td>
+</tr>
+</tbody></table>
+<h2 id="山外地面站"><a href="#山外地面站" class="headerlink" title="山外地面站"></a>山外地面站</h2><p>调整姿态时候发送</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调整姿态时候使用 来自教程视频</span></span><br><span class="line">DataBuf[<span class="number">0</span>]=Total_Controller.Pitch_Angle_Control.Expect;</span><br><span class="line">DataBuf[<span class="number">1</span>]=Total_Controller.Pitch_Gyro_Control.Expect;</span><br><span class="line">DataBuf[<span class="number">2</span>]=Total_Controller.Pitch_Angle_Control.FeedBack;</span><br><span class="line">DataBuf[<span class="number">3</span>]=Total_Controller.Pitch_Gyro_Control.FeedBack;</span><br><span class="line">DataBuf[<span class="number">4</span>]=Total_Controller.Roll_Angle_Control.Expect;</span><br><span class="line">DataBuf[<span class="number">5</span>]=Total_Controller.Roll_Gyro_Control.Expect;</span><br><span class="line">DataBuf[<span class="number">6</span>]=Total_Controller.Roll_Angle_Control.FeedBack;</span><br><span class="line">DataBuf[<span class="number">7</span>]=Total_Controller.Roll_Gyro_Control.FeedBack;</span><br></pre></td></tr></table></figure>
+
+<h2 id="WP-ADC"><a href="#WP-ADC" class="headerlink" title="WP_ADC"></a>WP_ADC</h2><p>测量电池电压</p>
+<h2 id="WP-flash"><a href="#WP-flash" class="headerlink" title="WP_flash"></a>WP_flash</h2><p>利用EEPROM存储数据 </p>
+<h2 id="WP-Math"><a href="#WP-Math" class="headerlink" title="WP_Math"></a>WP_Math</h2><p>APM、PX4里的一些数值解算函数</p>
+<h2 id="WP-PWM"><a href="#WP-PWM" class="headerlink" title="WP_PWM"></a>WP_PWM</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PWM_Period_MAX  3125<span class="comment">//2.5ms————400hz</span></span></span><br></pre></td></tr></table></figure>
+
+<p>乐天电调最高500-600hz，50-400hz对应乐天电调，不同电调频率不同会影响特性<br>不同于STM32 每个通道频率可以不一样。初始化高电平给1000</p>
+<h2 id="Soft-I2C"><a href="#Soft-I2C" class="headerlink" title="Soft_I2C"></a>Soft_I2C</h2><p>将io口改为软件i2c可以采样外部磁力计</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/04/09/%E6%97%A0%E4%BA%BA%E6%9C%BA%E9%A3%9E%E6%8E%A7%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Program/" rel="tag">Program</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UAV/" rel="tag">UAV</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2020/06/10/hello-world/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Hello World
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/03/20/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89%E7%9A%84%E8%87%AA%E4%B8%BB%E5%B7%A1%E6%A3%80%E6%97%A0%E4%BA%BA%E6%9C%BA/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">基于机器视觉的自主巡检无人机</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2019-2020
+        Ray Wong
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278705337&amp;web_id=1278705337'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ray.svg" alt="RayWong Robotics"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/Photos">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="https://github.com/Ray0117" target="_blank" rel="noopener">Github</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/ayer.js"></script>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>
