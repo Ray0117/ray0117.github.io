@@ -58,7 +58,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">558字</span>
+            <span class="post-count">578字</span>
         </span>
     </span>
 
@@ -106,16 +106,16 @@
 
 <h2 id="Anaconda"><a href="#Anaconda" class="headerlink" title="Anaconda"></a>Anaconda</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">chmod +x Ana</span><br><span class="line"></span><br><span class="line">vim ./.condarc</span><br><span class="line"></span><br><span class="line">https://mirrors.tuna.tsinghua.edu.cn/<span class="built_in">help</span>/anaconda/</span><br><span class="line"></span><br><span class="line">need to cancel the network proxy</span><br><span class="line"></span><br><span class="line">conda create -n python=</span><br><span class="line">conda activate</span><br><span class="line">conda disactivate</span><br><span class="line"></span><br><span class="line">conda config --<span class="built_in">set</span> auto_activate_base False or True</span><br></pre></td></tr></table></figure>
 
-<h2 id="Git-proxy"><a href="#Git-proxy" class="headerlink" title="Git proxy"></a>Git proxy</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy <span class="string">'socks5://127.0.0.1:1080'</span></span><br><span class="line">git config --global https.proxy <span class="string">'socks5://127.0.0.1:1080'</span></span><br><span class="line"></span><br><span class="line">git config --global --<span class="built_in">unset</span> http.https://github.com.proxy</span><br></pre></td></tr></table></figure>
+<h2 id="Git-proxy"><a href="#Git-proxy" class="headerlink" title="Git proxy"></a>Git proxy</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span></span><br><span class="line">git config --global https.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span></span><br><span class="line"></span><br><span class="line">git config --global --<span class="built_in">unset</span> http.https://github.com.proxy</span><br></pre></td></tr></table></figure>
 
 
 <h2 id="PyPi"><a href="#PyPi" class="headerlink" title="PyPi"></a>PyPi</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/<span class="built_in">help</span>/pypi/</span><br><span class="line">pip config <span class="built_in">set</span> global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
 
-<h2 id="Default-screen"><a href="#Default-screen" class="headerlink" title="Default screen"></a>Default screen</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">xrandr --output eDP-1 --off --output HDMI-2 --auto</span><br><span class="line"></span><br><span class="line"><span class="comment">## http proxy alias</span></span><br><span class="line">```bash</span><br><span class="line"><span class="built_in">alias</span> setproxy=<span class="string">"export ALL_PROXY=socks5://127.0.0.1:1080"</span></span><br><span class="line"><span class="built_in">alias</span> unsetproxy=<span class="string">"unset ALL_PROXY"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Default-screen"><a href="#Default-screen" class="headerlink" title="Default screen"></a>Default screen</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">xrandr --output eDP-1 --off --output HDMI-2 --auto</span><br><span class="line"></span><br><span class="line"><span class="comment">## http proxy alias</span></span><br><span class="line">```bash</span><br><span class="line"><span class="built_in">alias</span> setproxy=<span class="string">&quot;export ALL_PROXY=socks5://127.0.0.1:1080&quot;</span></span><br><span class="line"><span class="built_in">alias</span> unsetproxy=<span class="string">&quot;unset ALL_PROXY&quot;</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="Default-python"><a href="#Default-python" class="headerlink" title="Default python"></a>Default python</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/bin</span><br><span class="line">sudo rm python</span><br><span class="line">sudo ln -s python3.6m python</span><br></pre></td></tr></table></figure>
 
-<h2 id="ROS-Melodic"><a href="#ROS-Melodic" class="headerlink" title="ROS Melodic"></a>ROS Melodic</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c <span class="string">'echo "deb https://mirrors.tuna.tsinghua.edu.cn/ros/ubuntu/ bionic main" &gt; /etc/apt/sources.list.d/ros-latest.list'</span></span><br><span class="line"></span><br><span class="line">sudo apt-key adv --keyserver <span class="string">'hkp://keyserver.ubuntu.com:80'</span> --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654</span><br><span class="line"></span><br><span class="line">sudo apt install ros-melodic-desktop-full</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source /opt/ros/melodic/setup.bash"</span> &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"></span><br><span class="line">sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential</span><br></pre></td></tr></table></figure>
+<h2 id="ROS-Melodic"><a href="#ROS-Melodic" class="headerlink" title="ROS Melodic"></a>ROS Melodic</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c <span class="string">&#x27;echo &quot;deb https://mirrors.tuna.tsinghua.edu.cn/ros/ubuntu/ bionic main&quot; &gt; /etc/apt/sources.list.d/ros-latest.list&#x27;</span></span><br><span class="line"></span><br><span class="line">sudo apt-key adv --keyserver <span class="string">&#x27;hkp://keyserver.ubuntu.com:80&#x27;</span> --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654</span><br><span class="line"></span><br><span class="line">sudo apt install ros-melodic-desktop-full</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;source /opt/ros/melodic/setup.bash&quot;</span> &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"></span><br><span class="line">sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential</span><br></pre></td></tr></table></figure>
 
 <h2 id="rosdep-init"><a href="#rosdep-init" class="headerlink" title="rosdep init"></a>rosdep init</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http://wiki.ros.org/melodic/Installation/Ubuntu</span><br><span class="line"></span><br><span class="line">sudo gedit /etc/hosts</span><br><span class="line">151.101.84.133  raw.githubusercontent.com</span><br><span class="line"></span><br><span class="line">sudo rosdep init</span><br><span class="line">rosdep update</span><br></pre></td></tr></table></figure>
 
@@ -128,7 +128,7 @@
 
 <h2 id="Gazebo"><a href="#Gazebo" class="headerlink" title="Gazebo"></a>Gazebo</h2><blockquote>
 <p>Error in REST request for accessing api.ignition.org</p>
-<p>Update the server in ~/.ignition/fuel/config.yamlfrom <a href="https://api.ignitionfuel.org" target="_blank" rel="noopener">https://api.ignitionfuel.org</a> to <a href="https://api.ignitionrobotics.org" target="_blank" rel="noopener">https://api.ignitionrobotics.org</a></p>
+<p>Update the server in ~/.ignition/fuel/config.yamlfrom <a target="_blank" rel="noopener" href="https://api.ignitionfuel.org">https://api.ignitionfuel.org</a> to <a target="_blank" rel="noopener" href="https://api.ignitionrobotics.org">https://api.ignitionrobotics.org</a></p>
 </blockquote>
 <h3 id="Kepp-preparing-the-world"><a href="#Kepp-preparing-the-world" class="headerlink" title="Kepp preparing the world"></a>Kepp preparing the world</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.gazebo/</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/osrf/gazebo_models.git models</span><br></pre></td></tr></table></figure>
 
@@ -137,7 +137,7 @@
 <h3 id="Husky"><a href="#Husky" class="headerlink" title="Husky"></a>Husky</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-melodic-husky-simulator</span><br><span class="line">/opt/ros/melodic/share/husky_gazebo/launch/spawn_husky.launch</span><br><span class="line">delete -unpause <span class="keyword">in</span> 108</span><br></pre></td></tr></table></figure>
 
 
-<h4 id="To-move-Husky"><a href="#To-move-Husky" class="headerlink" title="To move Husky"></a>To move Husky</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rostopic pub -r 30 /cmd_vel geometry_msgs/Twist -- <span class="string">'[2.0, 0.0, 0.0]'</span> <span class="string">'[0.0, 0.0, 1.8]'</span></span><br></pre></td></tr></table></figure>
+<h4 id="To-move-Husky"><a href="#To-move-Husky" class="headerlink" title="To move Husky"></a>To move Husky</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rostopic pub -r 30 /cmd_vel geometry_msgs/Twist -- <span class="string">&#x27;[2.0, 0.0, 0.0]&#x27;</span> <span class="string">&#x27;[0.0, 0.0, 1.8]&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="To-void-the-warning-of-time-relay"><a href="#To-void-the-warning-of-time-relay" class="headerlink" title="To void the warning of time relay"></a>To void the warning of time relay</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt/ros/melodic/share/multimaster_launch/launch/multimaster_gazebo_robot.launch</span><br></pre></td></tr></table></figure>
 
@@ -147,7 +147,7 @@
 <h2 id="VS-Code"><a href="#VS-Code" class="headerlink" title="VS Code"></a>VS Code</h2><blockquote>
 <p>catkin build -DCMAKE_EXPORT_COMPILE_COMMANDS=Yes</p>
 <p>“compileCommands”: “/home/wry0117/catkin_ws/build/rotors_gazebo/</p>
-<p><a href="https://blog.csdn.net/Kalenee/article/details/103828448" target="_blank" rel="noopener">https://blog.csdn.net/Kalenee/article/details/103828448</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Kalenee/article/details/103828448">https://blog.csdn.net/Kalenee/article/details/103828448</a></p>
 </blockquote>
 
       
@@ -158,17 +158,6 @@
     
       <!-- copyright -->
       
-        <div class="declare">
-          <ul class="post-copyright">
-            <li>
-              <i class="ri-copyright-line"></i>
-              <strong>版权声明： </strong s>
-              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
-                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
-            </li>
-          </ul>
-        </div>
-        
     <footer class="article-footer">
       
           
@@ -365,6 +354,10 @@
     </li>
     
     <li class="nav-item">
+      <a class="nav-item-link" href="/CV">CV</a>
+    </li>
+    
+    <li class="nav-item">
       <a class="nav-item-link" href="/archives">归档</a>
     </li>
     
@@ -377,7 +370,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="https://github.com/Ray0117" target="_blank" rel="noopener">Github</a>
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://github.com/Ray0117">Github</a>
     </li>
     
   </ul>

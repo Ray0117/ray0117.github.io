@@ -96,7 +96,7 @@
       
 
       
-      <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>这份笔记是我在GitHub上的飞控代码<a href="https://github.com/Ray0117/AeroFirmware" target="_blank" rel="noopener">AeroFirmware</a>开发过程中留下的开发笔记，记录了大部分代码文件的使用方法与功能，包含TM4C单片机基础的控制、传感器通信、捷联惯导、视觉接口等方面，如有不足之处欢迎批评指正。</p>
+      <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>这份笔记是我在GitHub上的飞控代码<a target="_blank" rel="noopener" href="https://github.com/Ray0117/AeroFirmware">AeroFirmware</a>开发过程中留下的开发笔记，记录了大部分代码文件的使用方法与功能，包含TM4C单片机基础的控制、传感器通信、捷联惯导、视觉接口等方面，如有不足之处欢迎批评指正。</p>
 <a id="more"></a>
 
 
@@ -202,7 +202,7 @@
 <h2 id="卡尔曼滤波延时参数设置"><a href="#卡尔曼滤波延时参数设置" class="headerlink" title="卡尔曼滤波延时参数设置"></a>卡尔曼滤波延时参数设置</h2><p>#define SPL06_Sync_Cnt  25//30<br>改变延时参数，改大会先超调再下降，如果参数合适，会直接上升到估计高度，相位是直接平移的。20-25都可以，超声波气压计有区别，惯导和超声波要综合考虑</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Cnt=Num<span class="number">-1</span>;Cnt0;Cnt--)<span class="comment">//5ms滑动一次 和源代码有区别</span></span><br><span class="line">&#123;</span><br><span class="line">  Ins_Kf-Pos_History[N][Cnt]=Ins_Kf-Pos_History[N][Cnt<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="防止高度突变"><a href="#防止高度突变" class="headerlink" title="防止高度突变"></a>防止高度突变</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Controler_High_Mode==<span class="number">2</span>)</span><br><span class="line"> &#123;</span><br><span class="line">       <span class="comment">//观测量微分即速度的范围要小于历史惯导值的n倍</span></span><br><span class="line">       <span class="keyword">if</span>((ABS(observation_div)&lt;=<span class="number">30</span>*ABS(Ins_Kf-Vel_History[N][Pos_Delay_Cnt]))</span><br><span class="line">       <span class="comment">//5g加速度，欠驱动模型，下降最高1g</span></span><br><span class="line">            &amp;&amp;ABS(observation_acc)&lt;=<span class="number">5000</span><span class="comment">//5000cm/s^2约等于5g加速度，多旋翼达不到</span></span><br><span class="line">            <span class="comment">//上升下降不会超过15m/s</span></span><br><span class="line">            &amp;&amp;ABS(observation_div)&lt;=<span class="number">1500</span>)<span class="comment">//15m/s</span></span><br><span class="line">      &#123;</span><br><span class="line">        last_observation=Observation;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        Observation=last_observation;</span><br><span class="line">        observation_reset_flag=<span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(Controler_High_Mode==<span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="keyword">if</span>((ABS(observation_div)&lt;=<span class="number">30</span>*ABS(Ins_Kf-Vel_History[N][Pos_Delay_Cnt])))</span><br><span class="line">           last_observation=Observation;</span><br><span class="line">      <span class="keyword">else</span> Observation=last_observation;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> Observation=last_observation;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//如果观测误差太大，切满足复位条件，直接相信加速度计估计值而没有做修正</span></span><br><span class="line">  <span class="keyword">if</span>(observation_reset_flag==<span class="number">1</span>&amp;&amp;ABS(Z_Cor)=<span class="number">100</span>)  </span><br><span class="line">  &#123;</span><br><span class="line">    Z_Cor=<span class="number">0</span>;</span><br><span class="line">    observation_reset_flag=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="防止高度突变"><a href="#防止高度突变" class="headerlink" title="防止高度突变"></a>防止高度突变</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Controler_High_Mode==<span class="number">2</span>)</span><br><span class="line"> &#123;</span><br><span class="line">       <span class="comment">//观测量微分即速度的范围要小于历史惯导值的n倍</span></span><br><span class="line">       <span class="keyword">if</span>((ABS(observation_div)&lt;=<span class="number">30</span>*ABS(Ins_Kf-Vel_History[N][Pos_Delay_Cnt]))</span><br><span class="line">       <span class="comment">//5g加速度，欠驱动模型，下降最高1g</span></span><br><span class="line">            &amp;&amp;ABS(observation_acc)&lt;=<span class="number">5000</span><span class="comment">//5000cm/s^2约等于5g加速度，多旋翼达不到</span></span><br><span class="line">            <span class="comment">//上升下降不会超过15m/s</span></span><br><span class="line">            &amp;&amp;ABS(observation_div)&lt;=<span class="number">1500</span>)<span class="comment">//15m/s</span></span><br><span class="line">      &#123;</span><br><span class="line">        last_observation=Observation;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        Observation=last_observation;</span><br><span class="line">        observation_reset_flag=<span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(Controler_High_Mode==<span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="keyword">if</span>((ABS(observation_div)&lt;=<span class="number">30</span>*ABS(Ins_Kf-Vel_History[N][Pos_Delay_Cnt])))</span><br><span class="line">           last_observation=Observation;</span><br><span class="line">      <span class="keyword">else</span> Observation=last_observation;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> Observation=last_observation;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//如果观测误差太大，切满足复位条件，直接相信加速度计估计值而没有做修正</span></span><br><span class="line">  <span class="keyword">if</span>(observation_reset_flag==<span class="number">1</span>&amp;&amp;ABS(Z_Cor)=<span class="number">100</span>)  </span><br><span class="line">  &#123;</span><br><span class="line">    Z_Cor=<span class="number">0</span>;</span><br><span class="line">    observation_reset_flag=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
 
 <p>以上操作可以保证在气压计突变时不影响惯导高度</p>
 <h2 id="高度方向观测传感器自由切换"><a href="#高度方向观测传感器自由切换" class="headerlink" title="高度方向观测传感器自由切换"></a>高度方向观测传感器自由切换</h2><p>切气压计时加上超声波的基准高度<br>观测传感器强行赋值,同时保证卡尔曼滤波历史值正确</p>
@@ -337,17 +337,6 @@
     
       <!-- copyright -->
       
-        <div class="declare">
-          <ul class="post-copyright">
-            <li>
-              <i class="ri-copyright-line"></i>
-              <strong>版权声明： </strong s>
-              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
-                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
-            </li>
-          </ul>
-        </div>
-        
     <footer class="article-footer">
       
           
@@ -544,6 +533,10 @@
     </li>
     
     <li class="nav-item">
+      <a class="nav-item-link" href="/CV">CV</a>
+    </li>
+    
+    <li class="nav-item">
       <a class="nav-item-link" href="/archives">归档</a>
     </li>
     
@@ -556,7 +549,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="https://github.com/Ray0117" target="_blank" rel="noopener">Github</a>
+      <a class="nav-item-link" target="_blank" rel="noopener" href="https://github.com/Ray0117">Github</a>
     </li>
     
   </ul>
