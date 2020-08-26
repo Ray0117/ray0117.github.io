@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Ubuntu &amp; ROS 配置指南 |  RayWong Robotics
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/ray.ico" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-Ubuntu配置指南" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Ubuntu &amp; ROS 配置指南
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/26/Ubuntu%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/" class="article-date">
+  <time datetime="2020-05-26T02:44:03.000Z" itemprop="datePublished">2020-05-26</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">558字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">3分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <h2 id="change-to-TUNA-source"><a href="#change-to-TUNA-source" class="headerlink" title="change to TUNA source"></a>change to TUNA source</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/apt/sources.list</span><br><span class="line">https://mirrors.tuna.tsinghua.edu.cn/<span class="built_in">help</span>/ubuntu/</span><br></pre></td></tr></table></figure>
+<h2 id="git-amp-Normal-install"><a href="#git-amp-Normal-install" class="headerlink" title="git &amp; Normal install"></a>git &amp; Normal install</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git vim curl gnome-tweak-tool fcitx easystroke</span><br><span class="line">sudo ubuntu-drivers autoinstall</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<h2 id="v2rayL"><a href="#v2rayL" class="headerlink" title="v2rayL"></a>v2rayL</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/v2rayL/v2rayLui</span><br><span class="line"></span><br><span class="line">bash &lt;(curl -s -L http://dl.thinker.ink/install.sh)</span><br><span class="line">bash &lt;(curl -s -L http://dl.thinker.ink/update.sh)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Chrome"><a href="#Chrome" class="headerlink" title="Chrome"></a>Chrome</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://www.google.cn/chrome/index.html</span><br><span class="line"></span><br><span class="line">sudo dpkg -i</span><br></pre></td></tr></table></figure>
+
+<h2 id="Time-zone"><a href="#Time-zone" class="headerlink" title="Time zone"></a>Time zone</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">timedatectl <span class="built_in">set</span>-local-rtc 1 --adjust-system-clock</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Grub</span></span><br><span class="line">```bash</span><br><span class="line">sudo gedit /etc/default/grub</span><br><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sogou"><a href="#Sogou" class="headerlink" title="Sogou"></a>Sogou</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Language support</span><br><span class="line"></span><br><span class="line">sudo apt-get install fcitx/change to fcitx</span><br><span class="line"></span><br><span class="line">https://pinyin.sogou.com/linux/?r=pinyin</span><br></pre></td></tr></table></figure>
+
+<h2 id="Anaconda"><a href="#Anaconda" class="headerlink" title="Anaconda"></a>Anaconda</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">chmod +x Ana</span><br><span class="line"></span><br><span class="line">vim ./.condarc</span><br><span class="line"></span><br><span class="line">https://mirrors.tuna.tsinghua.edu.cn/<span class="built_in">help</span>/anaconda/</span><br><span class="line"></span><br><span class="line">need to cancel the network proxy</span><br><span class="line"></span><br><span class="line">conda create -n python=</span><br><span class="line">conda activate</span><br><span class="line">conda disactivate</span><br><span class="line"></span><br><span class="line">conda config --<span class="built_in">set</span> auto_activate_base False or True</span><br></pre></td></tr></table></figure>
+
+<h2 id="Git-proxy"><a href="#Git-proxy" class="headerlink" title="Git proxy"></a>Git proxy</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy <span class="string">'socks5://127.0.0.1:1080'</span></span><br><span class="line">git config --global https.proxy <span class="string">'socks5://127.0.0.1:1080'</span></span><br><span class="line"></span><br><span class="line">git config --global --<span class="built_in">unset</span> http.https://github.com.proxy</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="PyPi"><a href="#PyPi" class="headerlink" title="PyPi"></a>PyPi</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/<span class="built_in">help</span>/pypi/</span><br><span class="line">pip config <span class="built_in">set</span> global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<h2 id="Default-screen"><a href="#Default-screen" class="headerlink" title="Default screen"></a>Default screen</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">xrandr --output eDP-1 --off --output HDMI-2 --auto</span><br><span class="line"></span><br><span class="line"><span class="comment">## http proxy alias</span></span><br><span class="line">```bash</span><br><span class="line"><span class="built_in">alias</span> setproxy=<span class="string">"export ALL_PROXY=socks5://127.0.0.1:1080"</span></span><br><span class="line"><span class="built_in">alias</span> unsetproxy=<span class="string">"unset ALL_PROXY"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Default-python"><a href="#Default-python" class="headerlink" title="Default python"></a>Default python</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/bin</span><br><span class="line">sudo rm python</span><br><span class="line">sudo ln -s python3.6m python</span><br></pre></td></tr></table></figure>
+
+<h2 id="ROS-Melodic"><a href="#ROS-Melodic" class="headerlink" title="ROS Melodic"></a>ROS Melodic</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c <span class="string">'echo "deb https://mirrors.tuna.tsinghua.edu.cn/ros/ubuntu/ bionic main" &gt; /etc/apt/sources.list.d/ros-latest.list'</span></span><br><span class="line"></span><br><span class="line">sudo apt-key adv --keyserver <span class="string">'hkp://keyserver.ubuntu.com:80'</span> --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654</span><br><span class="line"></span><br><span class="line">sudo apt install ros-melodic-desktop-full</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source /opt/ros/melodic/setup.bash"</span> &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"></span><br><span class="line">sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential</span><br></pre></td></tr></table></figure>
+
+<h2 id="rosdep-init"><a href="#rosdep-init" class="headerlink" title="rosdep init"></a>rosdep init</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http://wiki.ros.org/melodic/Installation/Ubuntu</span><br><span class="line"></span><br><span class="line">sudo gedit /etc/hosts</span><br><span class="line">151.101.84.133  raw.githubusercontent.com</span><br><span class="line"></span><br><span class="line">sudo rosdep init</span><br><span class="line">rosdep update</span><br></pre></td></tr></table></figure>
+
+<h2 id="gym-gazebo"><a href="#gym-gazebo" class="headerlink" title="gym gazebo"></a>gym gazebo</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> gym-gazebo/gym_gazebo/envs/installation/</span><br><span class="line">bash turtlebot_setup.bash</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> gym-gazebo/examples/turtlebot</span><br><span class="line">python circuit_turtlebot_lidar_qlearn.py</span><br><span class="line"></span><br><span class="line">killgazebogym</span><br><span class="line"></span><br><span class="line">sudo apt-get install ros-melodic-nav2d ros-melodic-rviz \</span><br><span class="line">    ros-melodic-map-server ros-melodic-move-base ros-melodic-global-planner</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Nvidia"><a href="#Nvidia" class="headerlink" title="Nvidia"></a>Nvidia</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n 10 nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<h1 id="RotorS"><a href="#RotorS" class="headerlink" title="RotorS"></a>RotorS</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-melodic-desktop-full ros-melodic-joy ros-melodic-octomap-ros ros-melodic-mavlink python-wstool python-catkin-tools protobuf-compiler libgoogle-glog-dev ros-melodic-control-toolbox</span><br><span class="line"></span><br><span class="line">pip install catkin_pkg</span><br><span class="line"></span><br><span class="line">sudo apt install ros-melodic-mavros ros-melodic-mavros-extras</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span>  https://github.com/mavlink/mavros.git</span><br><span class="line"></span><br><span class="line">rosdep install --from-paths src --ignore-src --rosdistro melodic -y</span><br></pre></td></tr></table></figure>
+
+<h2 id="Gazebo"><a href="#Gazebo" class="headerlink" title="Gazebo"></a>Gazebo</h2><blockquote>
+<p>Error in REST request for accessing api.ignition.org</p>
+<p>Update the server in ~/.ignition/fuel/config.yamlfrom <a href="https://api.ignitionfuel.org" target="_blank" rel="noopener">https://api.ignitionfuel.org</a> to <a href="https://api.ignitionrobotics.org" target="_blank" rel="noopener">https://api.ignitionrobotics.org</a></p>
+</blockquote>
+<h3 id="Kepp-preparing-the-world"><a href="#Kepp-preparing-the-world" class="headerlink" title="Kepp preparing the world"></a>Kepp preparing the world</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.gazebo/</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/osrf/gazebo_models.git models</span><br></pre></td></tr></table></figure>
+
+<h2 id="Rotors-Command"><a href="#Rotors-Command" class="headerlink" title="Rotors Command"></a>Rotors Command</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rosrun rotors_gazebo waypoint_publisher 1 0 1 0 0 __ns:=firefly1</span><br><span class="line">0 0 1 0 2 -&gt; x y z yaw delay</span><br></pre></td></tr></table></figure>
+
+<h3 id="Husky"><a href="#Husky" class="headerlink" title="Husky"></a>Husky</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-melodic-husky-simulator</span><br><span class="line">/opt/ros/melodic/share/husky_gazebo/launch/spawn_husky.launch</span><br><span class="line">delete -unpause <span class="keyword">in</span> 108</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="To-move-Husky"><a href="#To-move-Husky" class="headerlink" title="To move Husky"></a>To move Husky</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rostopic pub -r 30 /cmd_vel geometry_msgs/Twist -- <span class="string">'[2.0, 0.0, 0.0]'</span> <span class="string">'[0.0, 0.0, 1.8]'</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="To-void-the-warning-of-time-relay"><a href="#To-void-the-warning-of-time-relay" class="headerlink" title="To void the warning of time relay"></a>To void the warning of time relay</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt/ros/melodic/share/multimaster_launch/launch/multimaster_gazebo_robot.launch</span><br></pre></td></tr></table></figure>
+
+<p>and comment the node about it</p>
+<h3 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ros-melodic-hector-gazebo</span><br></pre></td></tr></table></figure>
+
+<h2 id="VS-Code"><a href="#VS-Code" class="headerlink" title="VS Code"></a>VS Code</h2><blockquote>
+<p>catkin build -DCMAKE_EXPORT_COMPILE_COMMANDS=Yes</p>
+<p>“compileCommands”: “/home/wry0117/catkin_ws/build/rotors_gazebo/</p>
+<p><a href="https://blog.csdn.net/Kalenee/article/details/103828448" target="_blank" rel="noopener">https://blog.csdn.net/Kalenee/article/details/103828448</a></p>
+</blockquote>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/05/26/Ubuntu%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ROS/" rel="tag">ROS</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2020/06/09/%E6%97%A0%E4%BA%BA%E6%9C%BA%E9%A3%9E%E6%8E%A7%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            无人机飞控开发笔记
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/03/19/%E6%96%B0%E5%9E%8B%E7%90%83%E4%BD%93%E5%8F%91%E5%B0%84%E8%A3%85%E7%BD%AE/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">新型球体发射装置</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2019-2020
+        Ray Wong
+      </li>
+      <li>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278705337&amp;web_id=1278705337'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ray.svg" alt="RayWong Robotics"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="https://github.com/Ray0117" target="_blank" rel="noopener">Github</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/ayer.js"></script>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>
